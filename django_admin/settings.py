@@ -1,3 +1,5 @@
+# -*- encoding: utf-8 -*-
+
 """
 Django settings for test_django project.
 
@@ -14,7 +16,7 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+print BASE_DIR
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
@@ -23,20 +25,22 @@ SECRET_KEY = 'pbt+wm=+-ynd&y$1p_79gyqs^6rnjj=hqivholr=pc31hqhjcy'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ["192.168.226.128"]
-
 
 # Application definition
 
 INSTALLED_APPS = [
+    'suit',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'house'
+    'house',
+    'app',
 ]
 
 MIDDLEWARE = [
@@ -70,7 +74,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'django_admin.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
@@ -86,7 +89,6 @@ DATABASES = {
         'HOST': "localhost"
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -106,13 +108,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -130,6 +131,17 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
-
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+# STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+STATIC_ROOT = None
+if STATIC_ROOT is None:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# SUIT配置
+
+SUIT_CONFIG = {
+    'ADMIN_NAME': "测试平台",
+    'MENU': ({'label': u"房屋", 'app': 'house', 'models': ('house.House',)},
+             {'app': 'auth', 'models': ('user', 'group')},
+             {'label': u"测试", 'app': 'app', 'models': ('app.ExampleDotCom')})
+}
